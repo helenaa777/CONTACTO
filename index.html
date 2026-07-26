@@ -8,17 +8,17 @@
 </head>
 <body>
 
-    <button id="botonModoOscuro" class="boton-oscuro-flotante">🌙 Modo Oscuro</button>
+    <button id="botonModoOscuro" class="boton-oscuro-flotante" data-anuncio="Botón modo oscuro. Presioná Enter para activar o desactivar el tema oscuro">🌙 Modo Oscuro</button>
 
     <h1>Contacto</h1>
     <p>Convertí texto o voz a Braille</p>
 
     <div class="barra-superior">
         <label for="entradaTexto" class="etiqueta-oculta">Escribí el texto que querés convertir a Braille</label>
-        <textarea id="entradaTexto" placeholder="Escribí algo acá..." rows="1"></textarea>
-        <button id="botonConvertir">Convertir</button>
-        <button id="botonLimpiar" aria-label="Limpiar texto">🗑️ Limpiar</button>
-        <button id="botonVoz" aria-label="Grabar voz para convertir a Braille">🎤 Hablar</button>
+        <textarea id="entradaTexto" placeholder="Escribí algo acá..." rows="1" data-anuncio="Cuadro de texto. Escribí acá lo que querés convertir a Braille"></textarea>
+        <button id="botonConvertir" data-anuncio="Botón convertir a Braille">Convertir</button>
+        <button id="botonLimpiar" aria-label="Limpiar texto" data-anuncio="Botón limpiar texto">🗑️ Limpiar</button>
+        <button id="botonVoz" aria-label="Grabar voz para convertir a Braille" data-anuncio="Botón hablar. Presioná Enter para grabar tu voz">🎤 Hablar</button>
     </div>
 
     <p id="contador" aria-live="polite"></p>
@@ -26,7 +26,7 @@
     <div id="contenedorUnicode" class="contenedor-tarjeta" style="display: none;">
         <div class="header-tarjeta">
             <span><strong>Texto en Braille Unicode:</strong></span>
-            <button id="botonCopiar" aria-label="Copiar texto en Braille Unicode">📋 Copiar Braille</button>
+            <button id="botonCopiar" aria-label="Copiar texto en Braille Unicode" data-anuncio="Botón copiar Braille">📋 Copiar Braille</button>
         </div>
         <div id="salidaUnicode" class="salida-unicode"></div>
     </div>
@@ -35,8 +35,8 @@
         <div class="header-tarjeta">
             <span><strong>Celdas Braille Visuales:</strong></span>
             <div style="display: flex; gap: 10px;">
-                <button id="botonEscuchar" aria-label="Escuchar el texto en voz alta">🔊 Escuchar</button>
-                <button id="botonDescargar" aria-label="Descargar resultado como imagen SVG">📥 Descargar Imagen</button>
+                <button id="botonEscuchar" aria-label="Escuchar el texto en voz alta" data-anuncio="Botón escuchar el texto en voz alta">🔊 Escuchar</button>
+                <button id="botonDescargar" aria-label="Descargar resultado como imagen SVG" data-anuncio="Botón descargar imagen">📥 Descargar Imagen</button>
             </div>
         </div>
 
@@ -66,7 +66,7 @@
             <div style="height: 50px; display: flex; align-items: center; justify-content: center;">
                 <div id="letraDetectada" aria-live="polite" style="font-size: 1.15rem; font-weight: bold; color: #0088ff;">Ninguno</div>
             </div>
-            <button id="botonResetTeclado" style="margin-top: 15px;">Reiniciar Puntos</button>
+            <button id="botonResetTeclado" style="margin-top: 15px;" data-anuncio="Botón reiniciar puntos del teclado Braille">Reiniciar Puntos</button>
         </div>
     </div>
 

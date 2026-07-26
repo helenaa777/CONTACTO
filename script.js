@@ -535,3 +535,37 @@ botonResetTeclado.addEventListener('click', function () {
     actualizarResultadoTeclado();
     hablarTexto("Puntos reiniciados");
 });
+
+// --- GUÍA DE VOZ: anuncia el elemento enfocado al navegar con Tab ---
+function anunciarEnfoque(texto) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const mensaje = new SpeechSynthesisUtterance(texto);
+        mensaje.lang = 'es-ES';
+        mensaje.rate = 1.0;
+        window.speechSynthesis.speak(mensaje);
+    }
+}
+
+document.addEventListener('focusin', function (evento) {
+    const elemento = evento.target;
+
+    // Caso especial: puntos del teclado Braille virtual (no tienen data-anuncio fijo,
+    // porque cada uno es "Punto 1", "Punto 2", etc. según su número)
+    if (elemento.classList && elemento.classList.contains('punto') && elemento.hasAttribute('data-punto')) {
+        const numeroPunto = elemento.getAttribute('data-punto');
+        anunciarEnfoque(`Punto ${numeroPunto}`);
+        return;
+    }
+
+    // Resto de elementos: lee el texto guardado en data-anuncio, si existe
+    const textoAnuncio = elemento.getAttribute && elemento.getAttribute('data-anuncio');
+    if (textoAnuncio) {
+        anunciarEnfoque(textoAnuncio);
+    }
+});
+
+// Mensaje de bienvenida al cargar la página
+window.addEventListener('load', function () {
+    anunciarEnfoque('Hola, bienvenido a Contacto. Navegá con la tecla Tab para escuchar cada botón, y presioná Enter o Espacio para activarlo.');
+});
