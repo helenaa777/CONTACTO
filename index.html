@@ -14,18 +14,19 @@
     <p>Convertí texto o voz a Braille</p>
 
     <div class="barra-superior">
+        <label for="entradaTexto" class="etiqueta-oculta">Escribí el texto que querés convertir a Braille</label>
         <textarea id="entradaTexto" placeholder="Escribí algo acá..." rows="1"></textarea>
         <button id="botonConvertir">Convertir</button>
-        <button id="botonLimpiar">🗑️ Limpiar</button>
-        <button id="botonVoz">🎤 Hablar</button>
+        <button id="botonLimpiar" aria-label="Limpiar texto">🗑️ Limpiar</button>
+        <button id="botonVoz" aria-label="Grabar voz para convertir a Braille">🎤 Hablar</button>
     </div>
 
-    <p id="contador"></p>
+    <p id="contador" aria-live="polite"></p>
 
     <div id="contenedorUnicode" class="contenedor-tarjeta" style="display: none;">
         <div class="header-tarjeta">
             <span><strong>Texto en Braille Unicode:</strong></span>
-            <button id="botonCopiar">📋 Copiar Braille</button>
+            <button id="botonCopiar" aria-label="Copiar texto en Braille Unicode">📋 Copiar Braille</button>
         </div>
         <div id="salidaUnicode" class="salida-unicode"></div>
     </div>
@@ -34,8 +35,8 @@
         <div class="header-tarjeta">
             <span><strong>Celdas Braille Visuales:</strong></span>
             <div style="display: flex; gap: 10px;">
-                <button id="botonEscuchar">🔊 Escuchar</button>
-                <button id="botonDescargar">📥 Descargar Imagen</button>
+                <button id="botonEscuchar" aria-label="Escuchar el texto en voz alta">🔊 Escuchar</button>
+                <button id="botonDescargar" aria-label="Descargar resultado como imagen SVG">📥 Descargar Imagen</button>
             </div>
         </div>
 
@@ -63,7 +64,7 @@
             <p style="margin: 0 0 10px 0;">Puntos seleccionados: <strong id="puntosSeleccionados">Ninguno</strong></p>
             <h4 style="margin: 0 0 5px 0;">Carácter detectado:</h4>
             <div style="height: 50px; display: flex; align-items: center; justify-content: center;">
-                <div id="letraDetectada" style="font-size: 1.15rem; font-weight: bold; color: #0088ff;">Ninguno</div>
+                <div id="letraDetectada" aria-live="polite" style="font-size: 1.15rem; font-weight: bold; color: #0088ff;">Ninguno</div>
             </div>
             <button id="botonResetTeclado" style="margin-top: 15px;">Reiniciar Puntos</button>
         </div>

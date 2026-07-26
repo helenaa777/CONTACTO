@@ -421,9 +421,28 @@ function hablarTexto(texto) {
     }
 }
 
+// Hacer los puntos del teclado virtual accesibles por teclado
+celdaInteractiva.querySelectorAll('.punto').forEach(punto => {
+    punto.setAttribute('role', 'button');
+    punto.setAttribute('tabindex', '0');
+    const numeroPunto = punto.getAttribute('data-punto');
+    punto.setAttribute('aria-label', `Punto ${numeroPunto}, desactivado`);
+
+    punto.addEventListener('keydown', function (evento) {
+        if (evento.key === 'Enter' || evento.key === ' ') {
+            evento.preventDefault();
+            punto.click();
+        }
+    });
+});
+
 celdaInteractiva.querySelectorAll('.punto').forEach(punto => {
     punto.addEventListener('click', function () {
         this.classList.toggle('activo');
+
+        const numeroPunto = this.getAttribute('data-punto');
+        const estaActivo = this.classList.contains('activo');
+        this.setAttribute('aria-label', `Punto ${numeroPunto}, ${estaActivo ? 'activado' : 'desactivado'}`);
         
         const datos = actualizarResultadoTeclado();
         const puntosActivos = datos.puntos;
