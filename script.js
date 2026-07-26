@@ -565,7 +565,15 @@ document.addEventListener('focusin', function (evento) {
     }
 });
 
-// Mensaje de bienvenida al cargar la página
-window.addEventListener('load', function () {
+// Mensaje de bienvenida — se dispara con la PRIMERA interacción real (clic o tecla),
+// porque los navegadores bloquean el audio/voz automático sin interacción del usuario
+let bienvenidaReproducida = false;
+
+function reproducirBienvenida() {
+    if (bienvenidaReproducida) return;
+    bienvenidaReproducida = true;
     anunciarEnfoque('Hola, bienvenido a Contacto. Navegá con la tecla Tab para escuchar cada botón, y presioná Enter o Espacio para activarlo.');
-});
+}
+
+document.addEventListener('keydown', reproducirBienvenida, { once: true });
+document.addEventListener('click', reproducirBienvenida, { once: true });
