@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto - Braille</title>
+    <link rel="stylesheet" href="estilo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <button id="botonModoOscuro" class="boton-oscuro-flotante">🌙 Modo Oscuro</button>
+
+    <h1>Contacto</h1>
+    <p>Convertí texto o voz a Braille</p>
+
+    <div class="barra-superior">
+        <textarea id="entradaTexto" placeholder="Escribí algo acá..." rows="1"></textarea>
+        <button id="botonConvertir">Convertir</button>
+        <button id="botonLimpiar">🗑️ Limpiar</button>
+        <button id="botonVoz">🎤 Hablar</button>
+    </div>
+
+    <p id="contador"></p>
+
+    <div id="contenedorUnicode" class="contenedor-tarjeta" style="display: none;">
+        <div class="header-tarjeta">
+            <span><strong>Texto en Braille Unicode:</strong></span>
+            <button id="botonCopiar">📋 Copiar Braille</button>
+        </div>
+        <div id="salidaUnicode" class="salida-unicode"></div>
+    </div>
+
+    <div id="contenedorVisual" class="contenedor-tarjeta" style="display: none;">
+        <div class="header-tarjeta">
+            <span><strong>Celdas Braille Visuales:</strong></span>
+            <div style="display: flex; gap: 10px;">
+                <button id="botonEscuchar">🔊 Escuchar</button>
+                <button id="botonDescargar">📥 Descargar Imagen</button>
+            </div>
+        </div>
+
+        <div id="zonaCaptura">
+            <div id="resultadoBraille"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <h2>⌨️ Teclado Braille Virtual (Entrada Inversa)</h2>
+        <p>Hacé clic en los puntos para activar/desactivar y averiguar la letra o número:</p>
+    </div>
+
+    <div class="contenedor-teclado">
+        <div id="celdaInteractiva" class="celda-braille-interactiva">
+            <div class="punto" data-punto="1"></div>
+            <div class="punto" data-punto="4"></div>
+            <div class="punto" data-punto="2"></div>
+            <div class="punto" data-punto="5"></div>
+            <div class="punto" data-punto="3"></div>
+            <div class="punto" data-punto="6"></div>
+        </div>
+
+        <div class="panel-teclado-info">
+            <p style="margin: 0 0 10px 0;">Puntos seleccionados: <strong id="puntosSeleccionados">Ninguno</strong></p>
+            <h4 style="margin: 0 0 5px 0;">Carácter detectado:</h4>
+            <div style="height: 50px; display: flex; align-items: center; justify-content: center;">
+                <div id="letraDetectada" style="font-size: 1.15rem; font-weight: bold; color: #0088ff;">Ninguno</div>
+            </div>
+            <button id="botonResetTeclado" style="margin-top: 15px;">Reiniciar Puntos</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
