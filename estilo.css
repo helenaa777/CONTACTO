@@ -262,3 +262,21 @@ body.modo-oscuro .celda-braille-interactiva {
 .celda-braille-interactiva .punto[data-punto="5"] { grid-column: 2; grid-row: 2; }
 .celda-braille-interactiva .punto[data-punto="3"] { grid-column: 1; grid-row: 3; }
 .celda-braille-interactiva .punto[data-punto="6"] { grid-column: 2; grid-row: 3; }
+
+/* Link de salto — invisible hasta que recibe foco por Tab */
+.enlace-saltar {
+    position: absolute;
+    top: -100px;
+    left: 10px;
+    background: #2c3e50;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    z-index: 100;
+    transition: top 0.2s ease;
+}
+
+.enlace-saltar:focus {
+    top: 10px;
+}

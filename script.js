@@ -46,10 +46,15 @@ entradaTexto.addEventListener('input', function() {
     convertirABraille();
 });
 
-function crearCelda(puntosActivos, claseExtra) {
+function crearCelda(puntosActivos, claseExtra, textoAccesible) {
     const celda = document.createElement('div');
     celda.classList.add('celda-braille');
     if (claseExtra) celda.classList.add(claseExtra);
+
+    if (textoAccesible) {
+        celda.setAttribute('role', 'img');
+        celda.setAttribute('aria-label', textoAccesible);
+    }
 
     for (const n of ORDEN_VISUAL) {
         const punto = document.createElement('div');
@@ -117,12 +122,12 @@ function convertirABraille() {
 
                 if (esDigito) {
                     if (!enModoNumero) {
-                        grupoPalabra.appendChild(crearCelda(PUNTOS_NUMERO));
+                        grupoPalabra.appendChild(crearCelda(PUNTOS_NUMERO, null, 'Indicador de número'));
                         enModoNumero = true;
                     }
                     const letraEquivalente = mapaNumeros[caracterOriginal];
                     const puntos = diccionarioBraille[letraEquivalente];
-                    const celda = crearCelda(puntos);
+                    const celda = crearCelda(puntos, null, `Letra ${caracterOriginal}`);
                     grupoPalabra.appendChild(crearContenedorLetra(celda, caracterOriginal));
                     textoUnicode += diccionarioUnicode[caracterOriginal] || caracterOriginal;
                     totalCeldas++;
@@ -144,11 +149,11 @@ function convertirABraille() {
                 }
 
                 if (esMayuscula) {
-                    grupoPalabra.appendChild(crearCelda(PUNTOS_MAYUSCULA));
+                    grupoPalabra.appendChild(crearCelda(PUNTOS_MAYUSCULA, null, 'Indicador de mayúscula'));
                     textoUnicode += '⠠';
                 }
 
-                const celda = crearCelda(puntos);
+                const celda = crearCelda(puntos, null, esMayuscula ? `Letra ${letra.toUpperCase()}` : `Letra ${letra}`);
                 grupoPalabra.appendChild(crearContenedorLetra(celda, letra));
                 textoUnicode += diccionarioUnicode[letra] || letra;
                 totalCeldas++;
@@ -192,7 +197,7 @@ botonLimpiar.addEventListener('click', function () {
 // COPIAR UNICODE
 document.getElementById('botonCopiar').addEventListener('click', () => {
     navigator.clipboard.writeText(salidaUnicode.textContent);
-    alert('¡Braille Unicode copiado al portapapeles!');
+    anunciarEnfoque('Braille copiado al portapapeles');
 });
 
 // DESCARGAR IMAGEN
@@ -378,8 +383,10 @@ botonVoz.addEventListener('click', () => {
 });
 
 // MODO OSCURO
-document.getElementById('botonModoOscuro').addEventListener('click', () => {
+document.getElementById('botonModoOscuro').addEventListener('click', function () {
     document.body.classList.toggle('modo-oscuro');
+    const estaActivo = document.body.classList.contains('modo-oscuro');
+    this.setAttribute('aria-pressed', estaActivo);
 });
 
 // --- IDEA B: LÓGICA DEL TECLADO BRAILLE VIRTUAL (SIN MOVIMIENTOS Y AUDIO MEJORADO) ---
@@ -537,7 +544,10 @@ botonResetTeclado.addEventListener('click', function () {
 });
 
 // --- GUÍA DE VOZ: anuncia el elemento enfocado al navegar con Tab ---
+let guiaDeVozSilenciada = false;
+
 function anunciarEnfoque(texto) {
+    if (guiaDeVozSilenciada) return;
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const mensaje = new SpeechSynthesisUtterance(texto);
@@ -546,6 +556,21 @@ function anunciarEnfoque(texto) {
         window.speechSynthesis.speak(mensaje);
     }
 }
+
+document.getElementById('botonSilenciar').addEventListener('click', function () {
+    guiaDeVozSilenciada = !guiaDeVozSilenciada;
+    this.setAttribute('aria-pressed', guiaDeVozSilenciada);
+    this.textContent = guiaDeVozSilenciada ? '🔇 Guía silenciada' : '🔊 Silenciar guía';
+
+    // Este mensaje se dice SIEMPRE, incluso si se acaba de silenciar,
+    // para confirmar el cambio de estado
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const mensaje = new SpeechSynthesisUtterance(guiaDeVozSilenciada ? 'Guía de voz silenciada' : 'Guía de voz activada');
+        mensaje.lang = 'es-ES';
+        window.speechSynthesis.speak(mensaje);
+    }
+});
 
 document.addEventListener('focusin', function (evento) {
     const elemento = evento.target;
