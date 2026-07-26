@@ -1,0 +1,242 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px;
+}
+
+h1, p {
+    text-align: center;
+}
+
+.barra-superior {
+    position: sticky;
+    top: 0;
+    background-color: #f4f4f4;
+    padding: 10px 0;
+    z-index: 10;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+#entradaTexto {
+    padding: 8px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    resize: none;
+    overflow: hidden;
+    line-height: 1.4;
+    box-sizing: border-box;
+    display: block;
+    flex: 1;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#contador {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+}
+
+#resultadoBraille {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 25px;
+    width: 100%;
+}
+
+.celda-braille {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 4px;
+    width: 30px;
+    height: 45px;
+}
+
+.punto {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ddd;
+    border: 1px solid #bbb;
+}
+
+.punto.activo {
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+}
+
+.celda-braille.no-reconocida {
+    border: 2px dashed #c0392b;
+    border-radius: 6px;
+}
+
+.celda-braille.no-reconocida .punto {
+    background-color: #f4f4f4;
+    border-color: #c0392b;
+}
+
+/* Borramos el estilo viejo del espacio ya que no lo usamos más */
+.espacio-braille {
+    display: none;
+}
+
+.grupo-palabra {
+    display: flex;
+    gap: 8px; /* Espacio entre letras dentro de la misma palabra */
+}
+
+.contenedor-letra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.texto-letra {
+    font-size: 14px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.fila-linea {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 25px;
+    column-gap: 30px; /* Este gap crea el espacio entre palabras de forma limpia sin crear divs vacíos */
+    width: 100%;
+    justify-content: flex-start !important;
+    align-items: flex-start;
+}
+
+/* ESTILOS PARA TARJETAS Y HERRAMIENTAS EXTRAS */
+.contenedor-tarjeta {
+    max-width: 1000px;
+    margin: 20px auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.header-tarjeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.salida-unicode {
+    font-size: 1.5rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* --- ESTILOS DEL TECLADO BRAILLE INTERACTIVO --- */
+
+/* Contenedor principal para que la información no desplace al rectángulo */
+.contenedor-teclado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 25px auto;
+}
+
+/* 1. Evitar que la celda se modifique o sea empujada */
+.celda-braille-interactiva {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    padding: 15px !important;
+    width: 110px !important;         /* Dimensiones fijas */
+    height: 160px !important;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    background-color: #fff;
+    box-sizing: border-box !important;
+    justify-items: center !important;
+    align-items: center !important;
+
+    /* PROPIEDAD CLAVE: Impide que cualquier texto externo la mueva o encoja */
+    flex-shrink: 0 !important;
+}
+
+/* Puntos inactivos (apagados) */
+.celda-braille-interactiva .punto {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    background-color: #dddddd;     /* Color gris claro */
+    border: 1px solid #bbbbbb;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    transition: background-color 0.15s ease;
+}
+
+/* Puntos ACTIVOS: Se pintan en oscuro al hacer clic */
+.celda-braille-interactiva .punto.activo {
+    background-color: #2c3e50 !important; /* Azul oscuro / Negro */
+    border-color: #1a252f !important;
+}
+
+/* 2. Fijar el panel derecho para que los textos largos tengan su propio espacio reservado */
+.panel-teclado-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* Alinea el texto a la izquierda en su propio bloque */
+    justify-content: center;
+    min-width: 280px;         /* Espacio reservado para que no empuje */
+}
+
+/* 3. Evitar que la línea de puntos cambie el alto o ancho del bloque */
+.panel-teclado-info p {
+    margin: 0 0 8px 0;
+    min-height: 24px;         /* Reserva espacio vertical */
+    white-space: nowrap;      /* Mantiene el texto en su fila */
+}
+
+#letraDetectada {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0088ff;
+    min-height: 45px;             /* Reserva el espacio vertical fijo para que no parpadee */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton-oscuro-flotante {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+}
+
+body.modo-oscuro {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+body.modo-oscuro .barra-superior, 
+body.modo-oscuro .contenedor-tarjeta,
+body.modo-oscuro .celda-braille-interactiva {
+    background-color: #2b2b2b;
+    border-color: #444;
+}
