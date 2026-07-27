@@ -29,7 +29,6 @@ const PUNTOS_NUMERO = [3, 4, 5, 6];
 const ORDEN_VISUAL = [1, 4, 2, 5, 3, 6];
 
 // ELEMENTOS DOM
-const botonConvertir = document.getElementById('botonConvertir');
 const botonLimpiar = document.getElementById('botonLimpiar');
 const botonVoz = document.getElementById('botonVoz');
 const entradaTexto = document.getElementById('entradaTexto');
