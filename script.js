@@ -38,11 +38,27 @@ const salidaUnicode = document.getElementById('salidaUnicode');
 const contenedorUnicode = document.getElementById('contenedorUnicode');
 const contenedorVisual = document.getElementById('contenedorVisual');
 
-// Textarea Auto-ajustable
+// Textarea Auto-ajustable + lectura de palabra por palabra mientras se escribe
+let ultimoValorTexto = '';
+
 entradaTexto.addEventListener('input', function() {
     entradaTexto.style.height = 'auto';
     entradaTexto.style.height = entradaTexto.scrollHeight + 'px';
     convertirABraille();
+
+    const valorActual = entradaTexto.value;
+
+    // Si el último carácter escrito es un espacio, significa que se acaba de
+    // completar una palabra — la leemos en voz alta
+    if (valorActual.endsWith(' ') && !ultimoValorTexto.endsWith(' ')) {
+        const palabras = valorActual.trim().split(/\s+/);
+        const ultimaPalabra = palabras[palabras.length - 1];
+        if (ultimaPalabra) {
+            anunciarEnfoque(ultimaPalabra);
+        }
+    }
+
+    ultimoValorTexto = valorActual;
 });
 
 function crearCelda(puntosActivos, claseExtra, textoAccesible) {
