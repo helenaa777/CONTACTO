@@ -180,8 +180,6 @@ function convertirABraille() {
     contador.textContent = textoContador;
 }
 
-botonConvertir.addEventListener('click', convertirABraille);
-
 botonLimpiar.addEventListener('click', function () {
     entradaTexto.value = '';
     entradaTexto.style.height = 'auto';
